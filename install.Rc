@@ -1,0 +1,168 @@
+#define INCL_WINSYS
+#define INCL_WINSTDDLGS
+#define INCL_WINSTDSPIN
+#define INCL_NLS
+#define INCL_SW
+
+#include <os2.h>
+
+#include "install.h"
+
+ICON        I_Icon                             "install.ICO"
+DLGTEMPLATE I_Dialog
+BEGIN
+    DIALOG "Installer", I_Dialog, 208, 113, 309, 210, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE,
+                FCF_TITLEBAR | FCF_TASKLIST
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "Progress",            I_Progress, 13, 12, 159, 34, WC_STATIC,
+                                            SS_GROUPBOX | WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "Cancel",              I_Cancel, 178, 22, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "< Back",              I_Back, 224, 22, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Next >",              I_Next, 262, 22, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Press Next to begin the installation...", I_Status,
+                                        15, 54, 283, 8, WC_STATIC, SS_TEXT |
+                                            DT_LEFT | DT_TOP | WS_GROUP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "test",                I_Percent, 18, 24, 150, 9, WC_SLIDER,
+                                            SLS_HORIZONTAL | SLS_TOP |
+                                            SLS_BUTTONSRIGHT | SLS_HOMELEFT |
+                                            SLS_READONLY | SLS_RIBBONSTRIP |
+                                            SLS_PRIMARYSCALE1 | WS_VISIBLE
+                CTLDATA 12, 0, 5, 55, 5, 5
+    END
+END
+
+BITMAP      I_Logo                             "install.bmp"
+DLGTEMPLATE I_Dest
+BEGIN
+    DIALOG "Installer", I_Dest, 35, 256, 198, 57, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
+                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "Text",                I_Text, 12, 29, 174, 10, WC_ENTRYFIELD,
+                                            ES_AUTOSCROLL | ES_MARGIN |
+                                            WS_TABSTOP | WS_VISIBLE
+                CTLDATA 8, 255, 0, 0
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Destination Directory", 303, 12, 42, 154, 8, WC_STATIC,
+                                            SS_TEXT | DT_LEFT | DT_TOP |
+                                            WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "OK",                  I_OK, 48, 11, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Cancel",              I_Cancel2, 112, 11, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    END
+END
+
+DLGTEMPLATE I_Karte
+BEGIN
+    DIALOG "Installer", I_Karte, 182, 151, 178, 62, FS_NOBYTEALIGN |
+                FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
+                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "Yes",                 I_Ja, 5, 5, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | BS_DEFAULT |
+                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "No",                  I_Nein, 49, 5, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "All",                 I_Alle, 92, 5, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "Cancel",              I_Halt, 134, 5, 38, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+        CONTROL "",                    I_Confirm, 8, 21, 161, 35, WC_STATIC,
+                                            SS_TEXT | DT_LEFT | DT_TOP |
+                                            WS_GROUP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    END
+END
+
+DLGTEMPLATE I_BMPWin
+BEGIN
+    DIALOG "", I_BMPWin, 182, 151, 178, 62, FS_NOBYTEALIGN | FS_BORDER |
+                WS_CLIPSIBLINGS | WS_SAVEBITS, 
+                FCF_DBE_APPSTAT
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL I_Logo,                I_Logo, 0, 0, 343, 61, WC_STATIC,
+                                            SS_BITMAP | WS_GROUP | WS_VISIBLE
+    END
+END
+
+
+DLGTEMPLATE DLG_PACKAGESTOINSTALL MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Packages to Install", DLG_PACKAGESTOINSTALL, 16, 187, 301, 135,  
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
+                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "",                    PACKAGES, 9, 10, 224, 118, WC_LISTBOX, 
+                                            LS_MULTIPLESEL |
+                                            LS_NOADJUSTPOS | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "OK",                  PB_OK, 239, 113, 53, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Select All",          PB_SELECTALL, 239, 77, 53, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Deselect All",        PB_DESELECTALL, 239, 59, 53, 12,
+                                            WC_BUTTON, BS_PUSHBUTTON |
+                                            WS_TABSTOP | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Cancel",              PB_CANCEL, 239, 96, 53, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    END
+END
+
+DLGTEMPLATE DLG_SELECTINSTALLATIONDRIVE MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Select Installation Drive", DLG_SELECTINSTALLATIONDRIVE, 49, 102, 200, 89,  
+                FS_NOBYTEALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
+                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    PRESPARAMS PP_USER, "10.System Proportional"
+    BEGIN
+        CONTROL "",                    DRIVELIST, 9, 9, 128, 73, WC_LISTBOX,
+                                            LS_NOADJUSTPOS | WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "OK",                  PB_OK, 144, 65, 49, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+        CONTROL "Cancel",              PB_CANCEL, 144, 46, 49, 12, WC_BUTTON,
+                                            BS_PUSHBUTTON | WS_TABSTOP |
+                                            WS_VISIBLE
+                PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans"
+    END
+END
