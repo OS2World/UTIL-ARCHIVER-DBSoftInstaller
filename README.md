@@ -3,7 +3,7 @@ DBSoft Installer.  Self installer package, requires gcc and several utilities to
 
 LICENSE
 ===============
-
+* Not specified
 
 COMPILE TOOLS
 ===============
@@ -14,6 +14,7 @@ COMPILE TOOLS
 AUTHORS
 ===============
 * Brian Smith
+* Daniele Vistalli
 
 LINKS
 ===============
